@@ -35,11 +35,6 @@ func run(reader io.Reader, opts *protogen.Options) error {
 		return err
 	}
 
-	// err = os.WriteFile("testdata/message.desc", in, 0644)
-	// if err == nil {
-	// 	return err
-	// }
-
 	req := &pluginpb.CodeGeneratorRequest{}
 	if err := proto.Unmarshal(in, req); err != nil {
 		return err
