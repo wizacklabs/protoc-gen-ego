@@ -1,4 +1,4 @@
-module github.com/wizacklabs/protoc-gen-go
+module gitee.com/wizacklabs/protoc-gen-go
 
 go 1.20
 
