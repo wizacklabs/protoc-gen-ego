@@ -1,4 +1,4 @@
-module github.com/derekhjray/protoc-gen-go
+module github.com/wizacklabs/protoc-gen-go
 
 go 1.20
 
