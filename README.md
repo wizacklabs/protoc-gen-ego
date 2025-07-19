@@ -15,7 +15,7 @@ For more information about the usage of this plugin, see: https://protobuf.dev/r
 
 ## Installation
 ```bash
-go install github.com/wizacklabs/proto-gen-go
+go install gitee.com/wizacklabs/proto-gen-go
 ```
 
 ## Usage
