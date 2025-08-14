@@ -10,8 +10,8 @@ install: $(SOURCES)
 	go install -ldflags '-s -w -X main.version=$(VERSION) -X main.rc=$(RC)'
 
 .PHONY: test
-test: install $(TEST_PROTO_FILES)
-	protoc --proto_path=. --go_out=paths=source_relative:. $(TEST_PROTO_FILES)
+test: $(TEST_PROTO_FILES)
+	protoc --proto_path=. --ego_out=paths=source_relative,enum=camelcase:. $(TEST_PROTO_FILES)
 
 .PHONY: clean
 clean:
