@@ -9,9 +9,9 @@ import (
 
 var (
 	major      = 0
-	minor      = 1
-	patch      = 2
-	preRelease = "devel"
+	minor      = 2
+	patch      = 0
+	preRelease = ""
 )
 
 func showVersion() {

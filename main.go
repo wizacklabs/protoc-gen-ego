@@ -25,9 +25,10 @@ func main() {
 	}
 
 	var (
-		flags        flag.FlagSet
-		_            = flags.String("plugins", "", "deprecated option")
-		importPrefix = flags.String("import_prefix", "", "prefix to prepend to import paths")
+		flags flag.FlagSet
+		_     = flags.String("plugins", "", "deprecated option")
+		_     = flags.String("enum", "", "enum constants generate option")
+		//importPrefix = flags.String("import_prefix", "", "prefix to prepend to import paths")
 		//experimentalStripNonFunctionalCodegen = flags.Bool("experimental_strip_nonfunctional_codegen", false, "experimental_strip_nonfunctional_codegen true means that the plugin will not emit certain parts of the generated code in order to make it possible to compare a proto2/proto3 file with its equivalent (according to proto spec) editions file. Primarily, this is the encoded descriptor.")
 	)
 
@@ -42,16 +43,6 @@ func main() {
 
 	opts := &protogen.Options{
 		ParamFunc: flags.Set,
-		ImportRewriteFunc: func(importPath protogen.GoImportPath) protogen.GoImportPath {
-			switch importPath {
-			case "context", "fmt", "math":
-				return importPath
-			}
-			if *importPrefix != "" {
-				return protogen.GoImportPath(*importPrefix) + importPath
-			}
-			return importPath
-		},
 	}
 
 	err := run(os.Stdin, opts)

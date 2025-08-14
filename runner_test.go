@@ -14,6 +14,8 @@ import (
 )
 
 func TestRun(t *testing.T) {
+	os.Args = []string{"protoc-gen-test"}
+
 	file, err := os.Open("testdata/message.desc")
 	if err != nil {
 		t.Error(err)

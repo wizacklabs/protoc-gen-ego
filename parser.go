@@ -66,6 +66,10 @@ func (desc *FileDescriptor) add(model *Model) {
 }
 
 func (model *Model) parse(msg *protogen.Message) (err error) {
+	if err = refactorEnumConstants(msg.Enums); err != nil {
+		return
+	}
+	
 	for index := range msg.Fields {
 		field := &Field{Name: msg.Fields[index].GoName}
 		if err = field.parse(msg.Fields[index]); err != nil {
@@ -87,7 +91,7 @@ func (model *Model) parse(msg *protogen.Message) (err error) {
 	}
 
 	for _, nestedMessage := range msg.Messages {
-		nested := &Model{Name: string(nestedMessage.GoIdent.GoName), Fields: make(map[string]*Field), models: make(map[string]*Model)}
+		nested := &Model{Name: nestedMessage.GoIdent.GoName, Fields: make(map[string]*Field), models: make(map[string]*Model)}
 		if err = nested.parse(nestedMessage); err != nil {
 			return
 		}

@@ -3,6 +3,13 @@ syntax = "proto3";
 package testdata;
 option go_package = "./testdata";
 
+enum GroupRole {
+  UNSPECIFIC    = 0;
+  CREATOR       = 1;
+  ADMINISTRATOR = 2;
+  VICE_OWNER    = 3;
+}
+
 message dog {
   string name = 1;
   int32 age = 2;
