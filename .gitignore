@@ -25,4 +25,5 @@ go.work.sum
 .env
 
 go.sum
-protoc-gen-go
+protoc-gen-ego
+.idea

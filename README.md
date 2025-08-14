@@ -20,43 +20,74 @@ go install gitee.com/wizacklabs/proto-gen-ego
 ```
 
 ## Usage
-- auto generate field tags
+### General Command Line Arguments
+```bash
+protoc --plugin=protoc-gen-ego --ego_out=. --ego_opt=paths=source_relative xxx/xxx.proto
+```
+
+### Generate CamelCase Enum Constants
+- protobuf source code
+```protobuf
+enum Role {
+  UNSPECIFIC      = 0;
+  CREATOR         = 1;
+  OWNER           = 2;
+  FINANCE_MANAGER = 3;
+}
+```
+- generate option
+```bash
+protoc --plugin=protoc-gen-ego --ego_out=enum=camelcase. --ego_opt=paths=source_relative xxx/xxx.proto
+```
+
+- generated go source code
+```go
+type Role int32
+
+const (
+	RoleUnspecific     Role = 0
+	RoleCreator        Role = 1
+	RoleOwner          Role = 2
+	RoleFinanceManager Role = 3
+)
+```
+
+### Generate Field Tags
     
-    protobuf source code
-    ```protobuf
-    message foo {
-        // @gorm.tag=column:id;autoIncrement
-        // @json.tag=ID
-        int64 id = 1;
-    }
-    ```
-    generated go source code
-    ```go
-    type Foo struct {
-        state         protoimpl.MessageState
-        sizeCache     protoimpl.SizeCache
-        unknownFields protoimpl.UnknownFields
+- protobuf source code
+```protobuf
+message foo {
+    // @gorm.tag=column:id;autoIncrement
+    // @json.tag=ID
+    int64 id = 1;
+}
+```
+- generated go source code
+```go
+type Foo struct {
+    state         protoimpl.MessageState
+    sizeCache     protoimpl.SizeCache
+    unknownFields protoimpl.UnknownFields
 
-        Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"ID,omitempty" gorm:"column:id;autoIncrement"`
-    }
-    ```
+    Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"ID,omitempty" gorm:"column:id;autoIncrement"`
+}
+```
 
-- customize field name
+### Customize Field Name
+- protobuf source code
+```protobuf
+message foo {
+    // @go.name=ID
+    int64 id = 1;
+}
+```
+- generated go source code
+```go
+type Foo struct {
+    state         protoimpl.MessageState
+    sizeCache     protoimpl.SizeCache
+    unknownFields protoimpl.UnknownFields
 
-    protobuf source code
-    ```protobuf
-    message foo {
-        // @go.name=ID
-        int64 id = 1;
-    }
-    ```
-    generated go source code
-    ```go
-    type Foo struct {
-        state         protoimpl.MessageState
-        sizeCache     protoimpl.SizeCache
-        unknownFields protoimpl.UnknownFields
-
-        ID int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-    }
-    ```
+    ID int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+```
