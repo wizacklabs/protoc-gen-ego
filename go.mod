@@ -1,10 +1,10 @@
 module gitee.com/wizacklabs/protoc-gen-go
 
-go 1.23.1
+go 1.24.6
 
 require (
-	github.com/samber/lo v1.50.0
-	google.golang.org/protobuf v1.36.6
+	github.com/samber/lo v1.51.0
+	google.golang.org/protobuf v1.36.7
 )
 
-require golang.org/x/text v0.25.0 // indirect
+require golang.org/x/text v0.28.0 // indirect
