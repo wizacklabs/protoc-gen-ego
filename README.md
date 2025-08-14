@@ -37,7 +37,7 @@ enum Role {
 ```
 - generate option
 ```bash
-protoc --plugin=protoc-gen-ego --ego_out=enum=camelcase. --ego_opt=paths=source_relative xxx/xxx.proto
+protoc --plugin=protoc-gen-ego --ego_out=enum=camelcase:. --ego_opt=paths=source_relative xxx/xxx.proto
 ```
 
 - generated go source code
