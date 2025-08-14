@@ -10,7 +10,9 @@ import (
 	"strings"
 	"testing"
 
+	"gitee.com/wizacklabs/protoc-gen-go/testdata"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/proto"
 )
 
 func TestRun(t *testing.T) {
@@ -78,4 +80,30 @@ func TestParseGoSource(t *testing.T) {
 		return
 	}
 
+}
+
+func TestGeneration(t *testing.T) {
+	msg := &testdata.Message{
+		Id:    1,
+		Quote: []byte("123"),
+		Role:  testdata.GroupRoleCreator,
+	}
+
+	msg.Pet = &testdata.Message_Cat{
+		Cat: &testdata.Cat{Name: "cat"},
+	}
+
+	data, err := proto.Marshal(msg)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var msg2 testdata.Message
+	err = proto.Unmarshal(data, &msg2)
+	if err != nil {
+		t.Error(err)
+	}
+
+	t.Log(&msg2)
 }

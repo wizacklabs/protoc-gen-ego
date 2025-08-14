@@ -216,6 +216,7 @@ type Message struct {
 	//	*Message_Dog
 	//	*Message_Cat
 	Pet           isMessage_Pet `protobuf_oneof:"pet"`
+	Role          GroupRole     `protobuf:"varint,24,opt,name=role,proto3,enum=testdata.GroupRole" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -422,6 +423,13 @@ func (x *Message) GetCat() *Cat {
 	return nil
 }
 
+func (x *Message) GetRole() GroupRole {
+	if x != nil {
+		return x.Role
+	}
+	return GroupRoleUnspecific
+}
+
 type isMessage_Pet interface {
 	isMessage_Pet()
 }
@@ -501,7 +509,7 @@ const file_testdata_message_proto_rawDesc = "" +
 	"\x03cat\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04kind\x18\x02 \x01(\tR\x04kind\x12\x14\n" +
-	"\x05birth\x18\x03 \x01(\x05R\x05birth\"\xe2\x04\n" +
+	"\x05birth\x18\x03 \x01(\x05R\x05birth\"\x8b\x05\n" +
 	"\amessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\bsequence\x18\x02 \x01(\x03R\bsequence\x12\x1c\n" +
@@ -528,7 +536,8 @@ const file_testdata_message_proto_rawDesc = "" +
 	"\x05extra\x18\x14 \x01(\fR\x05extra\x12)\n" +
 	"\x04from\x18\x15 \x01(\v2\x15.testdata.message.manR\x04from\x12!\n" +
 	"\x03dog\x18\x16 \x01(\v2\r.testdata.dogH\x00R\x03dog\x12!\n" +
-	"\x03cat\x18\x17 \x01(\v2\r.testdata.catH\x00R\x03cat\x1a+\n" +
+	"\x03cat\x18\x17 \x01(\v2\r.testdata.catH\x00R\x03cat\x12'\n" +
+	"\x04role\x18\x18 \x01(\x0e2\x13.testdata.GroupRoleR\x04role\x1a+\n" +
 	"\x03man\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x10\n" +
 	"\x03age\x18\x02 \x01(\x05R\x03ageB\x05\n" +
@@ -567,11 +576,12 @@ var file_testdata_message_proto_depIdxs = []int32{
 	4, // 0: testdata.message.from:type_name -> testdata.message.man
 	1, // 1: testdata.message.dog:type_name -> testdata.dog
 	2, // 2: testdata.message.cat:type_name -> testdata.cat
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 3: testdata.message.role:type_name -> testdata.GroupRole
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_testdata_message_proto_init() }

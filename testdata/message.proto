@@ -65,4 +65,6 @@ message message {
     dog dog = 22;
     cat cat = 23;
   }
+
+  GroupRole role = 24;
 }
