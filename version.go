@@ -5,28 +5,20 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
-	"strconv"
 )
 
 var (
-	version = "v0.1.1-0-g831215c2"
-	rc      = "0"
+	major      = 0
+	minor      = 2
+	patch      = 0
+	preRelease = ""
 )
 
 func showVersion() {
-	re := regexp.MustCompile(`v?(.*)-(\d+)-g([a-f0-9]{7,8})`)
-	matches := re.FindStringSubmatch(version)
-	if len(matches) != 4 {
-		fmt.Fprintf(os.Stdout, "%v %v\n", filepath.Base(os.Args[0]), version)
-		return
+	version := fmt.Sprintf("v%d.%d.%d", major, minor, patch)
+	if preRelease != "" {
+		version += "-" + "devel"
 	}
 
-	v := "v" + matches[1]
-
-	if n, err := strconv.Atoi(rc); err == nil && n > 0 {
-		v += "-rc." + rc
-	}
-
-	fmt.Fprintf(os.Stdout, "%v %v\n", filepath.Base(os.Args[0]), v)
+	fmt.Fprintf(os.Stdout, "%v %v\n", filepath.Base(os.Args[0]), version)
 }

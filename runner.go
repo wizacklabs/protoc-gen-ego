@@ -12,11 +12,14 @@ import (
 	"strings"
 
 	"github.com/samber/lo"
+	"github.com/stoewer/go-strcase"
 	gengo "google.golang.org/protobuf/cmd/protoc-gen-go/internal_gengo"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/pluginpb"
 )
+
+var camelcaseEnumConstants = false
 
 // run executes a function as a protoc plugin.
 //
@@ -35,14 +38,13 @@ func run(reader io.Reader, opts *protogen.Options) error {
 		return err
 	}
 
-	// err = os.WriteFile("testdata/message.desc", in, 0644)
-	// if err == nil {
-	// 	return err
-	// }
-
 	req := &pluginpb.CodeGeneratorRequest{}
-	if err := proto.Unmarshal(in, req); err != nil {
+	if err = proto.Unmarshal(in, req); err != nil {
 		return err
+	}
+
+	if param := req.GetParameter(); strings.Contains(param, "enum=camelcase") {
+		camelcaseEnumConstants = true
 	}
 
 	gen, err := opts.New(req)
@@ -50,7 +52,7 @@ func run(reader io.Reader, opts *protogen.Options) error {
 		return err
 	}
 
-	descs, err := parseCommentaryDeclarations(gen.Files)
+	descs, err := refactorProtoSources(gen.Files)
 	if err != nil {
 		return err
 	}
@@ -76,18 +78,22 @@ func run(reader io.Reader, opts *protogen.Options) error {
 		return err
 	}
 
-	if _, err := os.Stdout.Write(out); err != nil {
+	if _, err = os.Stdout.Write(out); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func parseCommentaryDeclarations(files []*protogen.File) (descs []*FileDescriptor, err error) {
+func refactorProtoSources(files []*protogen.File) (descs []*FileDescriptor, err error) {
 	descs = make([]*FileDescriptor, 0, len(files))
 	for _, file := range files {
 		if !file.Generate || file.Desc == nil {
 			continue
+		}
+
+		if err = refactorEnumConstants(file.Enums); err != nil {
+			return nil, err
 		}
 
 		desc := &FileDescriptor{
@@ -106,6 +112,20 @@ func parseCommentaryDeclarations(files []*protogen.File) (descs []*FileDescripto
 	}
 
 	return
+}
+
+func refactorEnumConstants(enums []*protogen.Enum) error {
+	if !camelcaseEnumConstants {
+		return nil
+	}
+
+	for _, enum := range enums {
+		for _, value := range enum.Values {
+			value.GoIdent.GoName = strcase.UpperCamelCase(value.GoIdent.GoName)
+		}
+	}
+
+	return nil
 }
 
 func regenerateGoSources(descs []*FileDescriptor, sources []*pluginpb.CodeGeneratorResponse_File) (err error) {

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cat > testdata/message.desc
+
+cat testdata/message.desc | go run . > /dev/null
