@@ -56,6 +56,12 @@ message message {
     // @go.name=UName
     string name = 1;
     int32 age = 2; // @go.name=UA
+
+    enum Gender {
+      UNSPECIFIC = 0;
+      MALE = 1;
+      FEMALE = 2;
+    }
   }
   man from = 21;
 
@@ -67,4 +73,10 @@ message message {
   }
 
   GroupRole role = 24;
+
+  enum State {
+    OFFLINE   = 0;
+    ONLINE    = 1;
+    INVISIBLE = 2;
+  }
 }
