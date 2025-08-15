@@ -114,14 +114,22 @@ func refactorProtoSources(files []*protogen.File) (descs []*FileDescriptor, err 
 	return
 }
 
-func refactorEnumConstants(enums []*protogen.Enum) error {
+func refactorEnumConstants(enums []*protogen.Enum, prefixes ...string) error {
 	if !camelcaseEnumConstants {
 		return nil
 	}
 
+	var prefix string
+	if len(prefixes) > 0 {
+		prefix = prefixes[0]
+	}
+
 	for _, enum := range enums {
+		enum.GoIdent.GoName = strcase.UpperCamelCase(enum.GoIdent.GoName)
 		for _, value := range enum.Values {
-			value.GoIdent.GoName = strcase.UpperCamelCase(value.GoIdent.GoName)
+			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, prefix)
+			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, enum.GoIdent.GoName)
+			value.GoIdent.GoName = strcase.UpperCamelCase(enum.GoIdent.GoName + value.GoIdent.GoName)
 		}
 	}
 
