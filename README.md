@@ -16,7 +16,7 @@ For more information about the usage of this plugin, see: https://protobuf.dev/r
 
 ## Installation
 ```bash
-go install gitee.com/wizacklabs/proto-gen-ego
+go install github.com/wizacklabs/proto-gen-ego
 ```
 
 ## Usage

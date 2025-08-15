@@ -1,4 +1,4 @@
-module gitee.com/wizacklabs/protoc-gen-ego
+module github.com/wizacklabs/protoc-gen-ego
 
 go 1.24.6
 
