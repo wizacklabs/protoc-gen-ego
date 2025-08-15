@@ -66,10 +66,10 @@ func (desc *FileDescriptor) add(model *Model) {
 }
 
 func (model *Model) parse(msg *protogen.Message) (err error) {
-	if err = refactorEnumConstants(msg.Enums); err != nil {
+	if err = refactorEnumConstants(msg.Enums, msg.GoIdent.GoName); err != nil {
 		return
 	}
-	
+
 	for index := range msg.Fields {
 		field := &Field{Name: msg.Fields[index].GoName}
 		if err = field.parse(msg.Fields[index]); err != nil {

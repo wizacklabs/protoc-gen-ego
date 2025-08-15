@@ -10,14 +10,14 @@ import (
 	"strings"
 	"testing"
 
-	"gitee.com/wizacklabs/protoc-gen-go/testdata"
+	"gitee.com/wizacklabs/protoc-gen-ego/testdata"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 )
 
 func TestRun(t *testing.T) {
 	os.Args = []string{"protoc-gen-test"}
-
+	camelcaseEnumConstants = true
 	file, err := os.Open("testdata/message.desc")
 	if err != nil {
 		t.Error(err)
